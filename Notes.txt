@@ -1,0 +1,9 @@
+http://www.codeproject.com/Articles/43682/Writing-a-basic-Windows-debugger
+http://www.codeproject.com/Articles/132742/Writing-Windows-Debugger-Part-2
+http://www.codeproject.com/Articles/11132/Walking-the-callstack
+https://msdn.microsoft.com/en-us/library/windows/desktop/ms681675(v=vs.85).aspx
+http://win32assembly.programminghorizon.com/tut28.html
+https://maximumcrack.wordpress.com/2009/06/23/hardware-breakpoints-on-windows/
+http://www.hanselman.com/blog/SetUpYourSystemToUseMicrosoftsPublicSymbolServer.aspx
+https://en.wikipedia.org/wiki/X86_debug_register
+http://devonstrawntech.tumblr.com/post/15878429193/how-to-write-a-windows-debugger-references#Memory

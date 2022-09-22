@@ -1,0 +1,152 @@
+﻿<Window xmlns:Controls="clr-namespace:SharpDbg.Controls"  x:Class="SharpDbg.MainWindow"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:local="clr-namespace:SharpDbg"
+xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+xmlns:system="clr-namespace:System;assembly=mscorlib"
+mc:Ignorable="d"
+Closed="MainWindow_OnClosed"
+Title="MainWindow" Height="700" Width="1050">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Click="OpenMenuItem_OnClick" />
+                <MenuItem Header="_Close" Command="ApplicationCommands.Close" />
+                <MenuItem Header="_Save"/>
+            </MenuItem>
+        </Menu>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Content="Start" Click="ActionButton_OnClick" />
+                <Button Content="Pause" Click="PauseButton_OnClick" />
+                <Button Content="Step Into" Click="StepIntoButton_OnClick" />
+                <Button Content="Step Over" />
+                <Button Content="Step Out" />
+            </ToolBar>
+            <ToolBar>
+                <TextBlock Text="Theme:" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <ComboBox x:Name="ThemeCombo" SelectedIndex="0" Width="200">
+                    <ComboBoxItem Content="Generic" />
+                    <ComboBoxItem Content="Aero">
+                        <ComboBoxItem.Tag>
+                            <xcad:AeroTheme />
+                        </ComboBoxItem.Tag>
+                    </ComboBoxItem>
+                    <ComboBoxItem Content="VS2010">
+                        <ComboBoxItem.Tag>
+                            <xcad:VS2010Theme />
+                        </ComboBoxItem.Tag>
+                    </ComboBoxItem>
+                    <ComboBoxItem Content="Metro">
+                        <ComboBoxItem.Tag>
+                            <xcad:MetroTheme />
+                        </ComboBoxItem.Tag>
+                    </ComboBoxItem>
+                </ComboBox>
+            </ToolBar>
+        </ToolBarTray>
+        <xcad:DockingManager AllowMixedOrientation="True" BorderBrush="Black" BorderThickness="1" Theme="{Binding ElementName=ThemeCombo, Path=SelectedItem.Tag}">
+            <xcad:DockingManager.DocumentHeaderTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding IconSource}" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding Title}" />
+                    </StackPanel>
+                </DataTemplate>
+            </xcad:DockingManager.DocumentHeaderTemplate>
+            <xcad:LayoutRoot x:Name="LayoutRoot">
+                <xcad:LayoutPanel Orientation="Horizontal">
+                    <xcad:LayoutDocumentPaneGroup >
+                        <xcad:LayoutDocumentPane>
+                            <xcad:LayoutDocument ContentId="FlatDisasm" Title="Disassembly" CanClose="False">
+                                <Controls:DisassemblyControl x:Name="DisassemblyControl" />
+                            </xcad:LayoutDocument>
+                            <xcad:LayoutDocument ContentId="Windows" Title="Windows" CanClose="False">
+                                <Controls:ProcessViewControl x:Name="ProcessViewControl" />
+                            </xcad:LayoutDocument>
+                            <xcad:LayoutDocument ContentId="PE_Headers" Title="PE Headers" CanClose="False">
+                                <TextBox Text="Document 2 Content" AcceptsReturn="True"/>
+                            </xcad:LayoutDocument>
+                            <xcad:LayoutDocument ContentId="Resources" Title="Resources" CanClose="False">
+                                <TextBox Text="Document 2 Content" AcceptsReturn="True"/>
+                            </xcad:LayoutDocument>
+                            <xcad:LayoutDocument ContentId="Imports" Title="Imports" CanClose="False">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="300" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TreeView x:Name="ImportTreeView" />
+                                </Grid>
+                            </xcad:LayoutDocument>
+                        </xcad:LayoutDocumentPane>
+                    </xcad:LayoutDocumentPaneGroup >
+                    <xcad:LayoutDocumentPaneGroup >
+                        <xcad:LayoutDocumentPane>
+                            <xcad:LayoutAnchorable Title="Graph" ContentId="Graph" CanClose="False">
+                                <Controls:GraphDisassemblyControl x:Name="GraphDisassemblyControl" />
+                            </xcad:LayoutAnchorable>
+                            <xcad:LayoutAnchorable Title="Memory" ContentId="Memory" CanClose="False">
+                                <Controls:MemoryViewControl x:Name="MemoryViewControl" />
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutDocumentPane>
+                    </xcad:LayoutDocumentPaneGroup>
+                    <xcad:LayoutPanel Orientation="Vertical" DockWidth="350">
+                        <xcad:LayoutDocumentPaneGroup>
+                            <xcad:LayoutDocumentPane>
+                                <xcad:LayoutAnchorable ContentId="Context" Title="CPU Context">
+                                    <Controls:ContextControl x:Name="ContextControl" />
+                                </xcad:LayoutAnchorable>
+                                <xcad:LayoutAnchorable ContentId="Flags" Title="Flags">
+                                    <Controls:FlagsControl x:Name="FlagsControl" />
+                                </xcad:LayoutAnchorable>
+                                <xcad:LayoutAnchorable ContentId="Stack" Title="Stack View">
+                                    <Controls:StackViewControl x:Name="StackViewControl" />
+                                </xcad:LayoutAnchorable>
+                            </xcad:LayoutDocumentPane>
+                        </xcad:LayoutDocumentPaneGroup>
+                        <xcad:LayoutDocumentPaneGroup>
+                            <xcad:LayoutDocumentPane>
+                                <xcad:LayoutAnchorable Title="Debug Events" ContentId="DebugEvents" CanClose="False">
+                                    <ScrollViewer>
+                                        <TextBlock x:Name="DebugEventTextBlock" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Visible" />
+                                    </ScrollViewer>
+                                </xcad:LayoutAnchorable>
+                                <xcad:LayoutAnchorable Title="Debug Output" ContentId="DebugOutputs" CanClose="False">
+                                    <ScrollViewer>
+                                        <TextBlock x:Name="DebugPrintTextBlock" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Visible" />
+                                    </ScrollViewer>
+                                </xcad:LayoutAnchorable>
+                                <xcad:LayoutAnchorable Title="Breakpoints" ContentId="Breakpoints" CanClose="False">
+                                    <DataGrid x:Name="BreakpointGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="True" CanUserResizeRows="False">
+                                        <DataGrid.Columns>
+                                            <!--<DataGridCheckBoxColumn Header="Enabled" Width="75" Binding="{Binding Path=IsEnabled, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" />-->
+                                            <DataGridTemplateColumn Header="Enabled" Width="75" IsReadOnly="False">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox IsChecked="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}" Tag="{Binding}" Unchecked="ToggleButton_OnUnchecked" Checked="ToggleButton_OnChecked" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Header="Address" Width="75" Binding="{Binding Path=Address, StringFormat=0x{0:X8}}" IsReadOnly="True" />
+                                            <DataGridTextColumn Header="Label" Width="*" Binding="{Binding Path=Label}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Hit Count" Width="75" Binding="{Binding Path=HitCount}" IsReadOnly="True">
+                                                <DataGridTextColumn.CellStyle>
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Setter Property="Foreground" Value="{Binding Path=Brush}"/>
+                                                    </Style>
+                                                </DataGridTextColumn.CellStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </xcad:LayoutAnchorable>
+                            </xcad:LayoutDocumentPane>
+                        </xcad:LayoutDocumentPaneGroup>
+                    </xcad:LayoutPanel>
+                </xcad:LayoutPanel>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
+    </DockPanel>
+</Window>

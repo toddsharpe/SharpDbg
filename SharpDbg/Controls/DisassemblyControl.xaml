@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="SharpDbg.Controls.DisassemblyControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SharpDbg.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <ToolBar>
+            <CheckBox Content="Scroll to EIP" />
+        </ToolBar>
+
+        <DataGrid x:Name="DisassemblyGrid" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserSortColumns="False">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Toggle Breakpoint" Click="ToggleBreakpointMenuItem_OnClick"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Address" Width="75" Binding="{Binding Path=Address, StringFormat=0x{0:X8}}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Bytes" Width="150" Binding="{Binding Path=BytesString}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Instruction" Width="150" Binding="{Binding Path=InstructionString}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Reference" Width="*" Binding="{Binding Path=ReferenceString}" IsReadOnly="True">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Foreground" Value="{Binding Path=Brush}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{Binding AddressBrush}"/>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
+    </Grid>
+</UserControl>

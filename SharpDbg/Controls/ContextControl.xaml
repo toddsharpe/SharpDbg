@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="SharpDbg.Controls.ContextControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SharpDbg.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="300">
+    <Grid>
+        <DataGrid x:Name="RegistersGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Reg" Width="35" Binding="{Binding Path=Name}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Value" Width="100" Binding="{Binding Path=Value, StringFormat=0x{0:X8}}" IsReadOnly="False" >
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Foreground" Value="{Binding Path=Brush}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn Header="Reference" Width="100" Binding="{Binding Path=Reference}" IsReadOnly="False" />-->
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

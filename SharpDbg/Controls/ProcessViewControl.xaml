@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="SharpDbg.Controls.ProcessViewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SharpDbg.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <DataGrid x:Name="ThreadsDataGrid" CanUserDeleteRows="False" CanUserAddRows="False" AutoGeneratingColumn="ThreadsDataGrid_OnAutoGeneratingColumn"><!--threads-->
+            <!--<DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Width="75" Binding="{Binding Path=Id}" IsReadOnly="True" />
+                <DataGridTextColumn Header="State" Width="100" Binding="{Binding Path=State}" IsReadOnly="True"  />
+                <DataGridTextColumn Header="Reason" Width="75" Binding="{Binding Path=Reason}" IsReadOnly="True" />
+            </DataGrid.Columns>-->
+        </DataGrid>
+        
+        <DataGrid Grid.Row="1" Grid.Column="0"><!--stack-->
+            
+        </DataGrid>
+
+        <DataGrid x:Name="ModulesDataGrid" Grid.Row="0" Grid.Column="1" CanUserDeleteRows="False" CanUserAddRows="False" AutoGeneratingColumn="ModulesDataGrid_OnAutoGeneratingColumn"><!--modules-->
+            
+        </DataGrid>
+
+        <DataGrid Grid.Row="1" Grid.Column="1"><!-- imports-->
+            
+        </DataGrid>
+        
+    </Grid>
+</UserControl>
